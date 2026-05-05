@@ -101,5 +101,65 @@ tukey = pairwise_tukeyhsd(
 
 print(tukey)
 
+# Histogram of Sleep Duration 
+data = df["Sleep Duration"]
+
+mean = np.mean(data)
+median = np.median(data)
+
+plt.figure(figsize=(8, 5))
+plt.hist(data, bins=12, edgecolor='black')
+plt.axvline(mean, linestyle='dashed', linewidth=2, label=f"Mean = {mean:.2f}")
+plt.axvline(median, linestyle='solid', linewidth=2, label=f"Median = {median:.2f}")
+plt.title("Distribution of Sleep Duration", fontsize=14, fontweight='bold')
+plt.xlabel("Sleep Duration (Hours)", fontsize=12)
+plt.ylabel("Frequency", fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.legend()
+plt.tight_layout()
+plt.show()
 
 
+
+# Correlation between numerical variables
+numerical_cols = ["Sleep Duration", "Quality of Sleep", "Stress Level", "Physical Activity Level"]
+corr_matrix = df[numerical_cols].corr()
+
+plt.figure(figsize=(6,5))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+
+# Make x-axis labels italic
+plt.xticks(rotation=45, fontstyle='italic')  # rotate if needed
+plt.yticks(rotation=0, fontstyle='italic')   # optional: make y-axis labels italic too
+
+plt.title("Correlation Matrix of Sleep & Lifestyle Variables", fontsize=14, fontweight='bold')
+plt.show()
+
+# Regression Plot — Stress vs Sleep Duration by BMI
+sns.lmplot(
+    x='Stress Level',
+    y='Sleep Duration',
+    hue='BMI Category',
+    data=df,
+    height=5,
+    aspect=1.2
+)
+
+plt.title("Sleep vs Stress by BMI Category")
+plt.show()
+
+
+# Violin Plot — Sleep Duration by BMI Category
+plt.figure(figsize=(8,5))
+
+sns.violinplot(
+    x='BMI Category',
+    y='Sleep Duration',
+    data=df,
+    inner='box'
+)
+
+plt.title("Sleep Duration Distribution by BMI Category")
+plt.xlabel("BMI Category")
+plt.ylabel("Sleep Duration (hours)")
+plt.show()
